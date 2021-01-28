@@ -1,6 +1,8 @@
 At this point it satisfies all of the requirements but the filtering of comments needs to be improved. 3:49PM EST
 
 
+I am trying to figure out a way to get the referrals to filter better. I am sure that there's a better way to do it. If I had a list of each of the sales reps we could at least check it up against that, but with some of the referrals coming from people outside of Sweetwater, I am not sure.
+
 
 # Web Programmer Test Project
 
