@@ -1,3 +1,7 @@
+At this point it satisfies all of the requirements but the filtering of comments could be improved. 3:49PM EST
+
+
+
 # Web Programmer Test Project
 
 Thanks for your interest in working at Sweetwater! We're always excited to meet awesome people. We've created this test to help us understand your programming chops.
