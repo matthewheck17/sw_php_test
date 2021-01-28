@@ -22,6 +22,8 @@
         $miscArr = []; //init empy array for misc comments
         $candyArr = []; //init empty array for comments about candy
         $callArr = []; //init empty array for comments about candy
+        $referralArr = [];
+        $signArr = []; //init empty array for comments about signing
         
         while($row = $result->fetch_assoc()) {
             $used = false;
@@ -31,8 +33,19 @@
             }
 
             //need to figure out way to get all relevant data and filter out non-relevant data
-            if (stripos($row["comments"], 'don\'t call') || stripos($row["comments"], 'call me') || stripos($row["comments"], 'please call')) { //find each comment that says call in it
-                array_push($callArr, $row["comments"]); //push to candy array 
+            if (stripos($row["comments"], 'don\'t call') || stripos($row["comments"], 'call me') || stripos($row["comments"], 'please call')) {
+                array_push($callArr, $row["comments"]); //push to call array 
+                $used = true; 
+            }
+
+            //need to figure out way to get all relevant data and filter out non-relevant data
+            if (stripos($row["comments"], 'refer') || stripos($row["comments"], 'sales')) { //find each comment that says refer and sales in it
+                array_push($referralArr, $row["comments"]); //push to referral array 
+                $used = true; 
+            }
+
+            if (stripos($row["comments"], 'sign') ) { //find each comment that says sign in it
+                array_push($signArr, $row["comments"]); //push to sign array 
                 $used = true; 
             }
 
@@ -54,6 +67,22 @@
         echo '<table id="call-table">';
         echo '<tr><th>Comments about calls</th></tr>';
         foreach ($callArr as &$value) {
+            echo '<tr><td>' . $value .'</td></tr>'; //add each comment that said call to call table
+        }
+        echo '</table>';
+
+        //referral comments table 
+        echo '<table id="referral-table">';
+        echo '<tr><th>Comments about referrals</th></tr>';
+        foreach ($referralArr as &$value) {
+            echo '<tr><td>' . $value .'</td></tr>'; //add each comment that said call to call table
+        }
+        echo '</table>';
+
+        //signature comments table 
+        echo '<table id="signature-table">';
+        echo '<tr><th>Comments about signature</th></tr>';
+        foreach ($signArr as &$value) {
             echo '<tr><td>' . $value .'</td></tr>'; //add each comment that said call to call table
         }
         echo '</table>';
