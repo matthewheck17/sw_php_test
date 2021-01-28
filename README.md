@@ -1,4 +1,4 @@
-At this point it satisfies all of the requirements but the filtering of comments could be improved. 3:49PM EST
+At this point it satisfies all of the requirements but the filtering of comments needs to be improved. 3:49PM EST
 
 
 
