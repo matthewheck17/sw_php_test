@@ -16,14 +16,15 @@
 </head>
 <body>
     <?php
-        $stmt = $conn->prepare("SELECT comments FROM sweetwater_test"); //get all comments
+        $stmt = $conn->prepare("SELECT comments,orderid FROM sweetwater_test"); //get all comments
         $stmt->execute();
         $result = $stmt->get_result();
         $miscArr = []; //init empy array for misc comments
         $candyArr = []; //init empty array for comments about candy
-        $callArr = []; //init empty array for comments about candy
-        $referralArr = [];
+        $callArr = []; //init empty array for comments about calls
+        $referralArr = []; //init empty array for comments about referrals
         $signArr = []; //init empty array for comments about signing
+
         
         while($row = $result->fetch_assoc()) {
             $used = false;
@@ -47,6 +48,16 @@
             if (stripos($row["comments"], 'sign') ) { //find each comment that says sign in it
                 array_push($signArr, $row["comments"]); //push to sign array 
                 $used = true; 
+            }
+
+            if (stripos($row["comments"], 'Expected Ship Date:') ) { //find each comment that says sign in it
+                $pos = strpos($row["comments"], 'Expected Ship Date:');
+                $dateStr = substr($row["comments"], $pos + 20, 8) . " 00:00:00"; // extract date from each comment
+                $phpDate = strtotime($dateStr);
+                $formattedDate = date('Y-m-d H:i:s', $phpDate);
+                $stmt2 = $conn->prepare("UPDATE sweetwater_test SET shipdate_expected = ? WHERE orderid = ?"); //get all comments
+                $stmt2->bind_param('si', $formattedDate, $row['orderid']);
+                $stmt2->execute();
             }
 
             if (!$used){
