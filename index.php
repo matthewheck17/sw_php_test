@@ -1,9 +1,6 @@
 <?php
     include "dbconfig.inc.php";
 
-    // Report all PHP errors
-    error_reporting(E_ALL);
-
     $conn = openConnection(); //call openConnection function from dbconfig file to open connection with DB
 ?>
 
@@ -28,24 +25,25 @@
         
         while($row = $result->fetch_assoc()) {
             $used = false;
-            if (stripos($row["comments"], 'candy')) { //find each comment that says candy in it
+            if (stripos($row["comments"], 'candy') !== false || stripos($row["comments"], 'smarties') !== false || stripos($row["comments"], 'honey') !== false || stripos($row["comments"], 'taffy') !== false || stripos($row["comments"], 'tootsie rolls') !== false) { //find each comment that says candy in it
                 array_push($candyArr, $row["comments"]); //push to candy array
                 $used = true; 
             }
 
             //need to figure out way to get all relevant data and filter out non-relevant data
-            if (stripos($row["comments"], 'don\'t call') || stripos($row["comments"], 'call me') || stripos($row["comments"], 'please call')) {
+            if (stripos($row["comments"], 'don\'t call') !== false || stripos($row["comments"], 'call me') !== false || stripos($row["comments"], 'please call') !== false) {
                 array_push($callArr, $row["comments"]); //push to call array 
                 $used = true; 
             }
 
-            //need to figure out way to get all relevant data and filter out non-relevant data
-            if (stripos($row["comments"], 'refer') || stripos($row["comments"], 'sales')) { //find each comment that says refer and sales in it
+            $nameRE = '/[A-Z][a-z]+ [A-Z]/'; //regular expression to check for names in the form Matthew H
+            $shipdateRemoved = substr($row["comments"],0,-28); //cut of the Expected Ship Date ... part of the string or it will get accepted by RE every time
+            if (stripos($row["comments"], 'referred') !== false || stripos($row["comments"], 'referral') !== false || stripos($row["comments"], 'sales') !== false || preg_match($nameRE, $shipdateRemoved)) { //find each comment that says refer and sales in it
                 array_push($referralArr, $row["comments"]); //push to referral array 
                 $used = true; 
             }
 
-            if (stripos($row["comments"], 'sign') ) { //find each comment that says sign in it
+            if (stripos($row["comments"], 'sign') !== false ) { //find each comment that says sign in it
                 array_push($signArr, $row["comments"]); //push to sign array 
                 $used = true; 
             }
